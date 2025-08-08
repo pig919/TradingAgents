@@ -1,10 +1,13 @@
 import chromadb
 from chromadb.config import Settings
 from openai import OpenAI
+from tradingagents.rl_memory import RLMemory
 
 
-class FinancialSituationMemory:
+class FinancialSituationMemory(RLMemory):
     def __init__(self, name, config):
+        super().__init__(max_size=config.get("max_memory_size", 1000))
+
         if config["backend_url"] == "http://localhost:11434/v1":
             self.embedding = "nomic-embed-text"
         else:
